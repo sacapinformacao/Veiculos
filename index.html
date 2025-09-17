@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checagem de Veículos | AP Informação</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --dark-blue:#194a86;
+      --medium-blue:#2693ab;
+      --light-blue:#e0f2f7;
+      --accent-color:#007bff;
+      --text-color:#333;
+      --muted:#666;
+      --card-shadow: 0 4px 10px rgba(24,38,63,0.06);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:'Roboto',sans-serif;
+      margin:0;
+      color:var(--text-color);
+      background:#f7f7f7;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* ---------- HEADER (padrão das páginas anteriores) ---------- */
+    header {
+        background: linear-gradient(90deg, var(--dark-blue), var(--medium-blue));
+        padding: 0 20px;
+        height: 72px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    .header-logo { display: flex; align-items: center; flex: 0 0 auto; height: 100%; padding-right: 12px; }
+    .header-logo img { max-height: 64px; max-width: 220px; width: auto; height: auto; object-fit: contain; }
+    .header-nav { flex: 1 1 auto; display: flex; justify-content: center; }
+    .header-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 30px; align-items: center; }
+    .header-nav a, .header-nav span {
+        text-decoration: none; color: white; font-weight: 700;
+        cursor: pointer; transition: color 0.3s, transform 0.2s;
+    }
+    .header-nav a:hover, .header-nav span:hover { color: var(--light-blue); transform: scale(1.05); }
+    .header-nav li { position: relative; }
+.header-nav li .dropdown-menu {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 0; /* corrige alinhamento */
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    min-width: 220px;
+    z-index: 1000;
+    border-radius: 5px;
+    transition: visibility 0s, opacity 0.3s linear;
+    display: block; /* força o container a não virar flex */
+}
+
+.header-nav li .dropdown-menu li {
+    display: block; /* garante vertical */
+    width: 100%;
+}
+
+.header-nav li .dropdown-menu a {
+    display: block;
+    padding: 8px 20px;
+    font-weight: 400;
+    color: var(--text-color);
+    white-space: nowrap;
+}
+
+    .dropdown-menu a { display: block; padding: 8px 20px; font-weight: 400; color: var(--text-color); }
+    .dropdown-menu a:hover { color: var(--medium-blue); background-color: #f0f8fa; }
+    .header-nav li:hover .dropdown-menu { visibility: visible; opacity: 1; }
+    .header-cta { margin-left: 30px; }
+    .header-cta a {
+        background-color: white; color: var(--dark-blue);
+        padding: 12px 25px; border-radius: 30px; font-weight: bold; text-decoration: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .header-cta a:hover { background-color: var(--light-blue); color: var(--dark-blue); }
+    @media (max-width: 768px) {
+      header { height: 60px; padding: 0 12px; }
+      .header-logo img { max-height: 46px; max-width: 160px; }
+      .header-nav ul, .header-cta { display: none; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero{background: linear-gradient(180deg, rgba(38,147,171,0.06), rgba(224,242,247,0.4));padding:56px 20px;text-align:center;color:var(--dark-blue);}
+    .hero .container{display:flex;flex-direction:column;align-items:center;gap:18px;max-width:980px}
+    .hero h1{font-size:2.4rem;margin:0;font-weight:700}
+    .hero p{margin:0 0 12px;color:var(--muted);font-size:1.05rem;line-height:1.5}
+    .btn{display:inline-block;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:700}
+    .btn-primary{background:var(--accent-color);color:#fff}
+
+    /* ---------- Sections ---------- */
+    .section{padding:48px 20px;margin-top:18px;background:#fff;border-radius:10px;box-shadow:var(--card-shadow)}
+    .section h2{color:var(--dark-blue);text-align:center;margin:0 0 14px;font-size:1.8rem}
+    .lead{max-width:820px;margin:0 auto;color:var(--muted);text-align:center;line-height:1.6}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:22px}
+    .card{background:#fff;border-radius:10px;padding:22px;box-shadow:0 6px 18px rgba(15,35,60,0.04);border:1px solid #f0f6f9;display:flex;flex-direction:column;gap:12px}
+    .card h3{margin:0;font-size:1.1rem;color:var(--medium-blue)}
+    .card p{margin:0;color:var(--muted)}
+    .feature-row{display:flex;gap:16px;align-items:flex-start}
+    .feature-ico{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+    .feature-ico svg{width:28px;height:28px}
+
+    /* ---------- Footer ---------- */
+    footer{background:var(--dark-blue);color:#fff;padding:20px;text-align:center;margin-top:22px}
+    footer a{color:var(--light-blue);text-decoration:none}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-logo">
+      <a href="/site/">
+        <img src="https://raw.githubusercontent.com/sacapinformacao/clientes/36d5eab5b6cf22741d66c95eae5857a60141dee2/logo%20novo%20branco%20copiar.png" alt="AP Informação Logo">
+      </a>
+    </div>
+    <nav class="header-nav">
+      <ul>
+        <li>
+          <span>Serviços</span>
+          <ul class="dropdown-menu">
+            <li><a href="https://apinformacao.net.br/site/background-check/">Background Check</a></li>
+            <li><a href="https://apinformacao.net.br/site/veiculos/">Análise de Veículos</a></li>
+            <li><a href="https://apinformacao.net.br/site/enriquecimento-de-dados/">Enriquecimento de Dados</a></li>
+            <li><a href="https://apinformacao.net.br/site/lgpd/">Compliance e LGPD</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Setores</span>
+          <ul class="dropdown-menu">
+            <li><a href="https://sacapinformacao.github.io/Landpage-Advocacia/">Jurídico</a></li>
+            <li><a href="https://sacapinformacao.github.io/lanpage-Im-veis/">Imobiliário</a></li>
+            <li><a href="https://sacapinformacao.github.io/Landpage-Industrias/">Industrial</a></li>
+          </ul>
+        </li>
+        <li><a href="https://apinformacao.net.br/site/planos/">Planos</a></li>
+        <li><a href="https://apinformacao.net.br/site/sobre-nos/">Sobre Nós</a></li>
+      </ul>
+    </nav>
+    <div class="header-cta">
+      <a href="https://api.whatsapp.com/send?phone=5511948962888&text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20as%20soluções%20da%20AP%20Informação.">Fale Conosco</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Checagem de Veículos — segurança além da negociação</h1>
+      <p>Mais do que consultas de compra e venda: nossa solução apoia decisões jurídicas, imobiliárias e industriais, oferecendo histórico completo e confiável de veículos para litígios, garantias, auditorias e operações logísticas.</p>
+      <a class="btn btn-primary" href="https://api.whatsapp.com/send?phone=5511948962888&text=Olá!%20Quero%20saber%20mais%20sobre%20a%20Checagem%20de%20Veículos." target="_blank">Quero conhecer</a>
+    </div>
+  </section>
+
+  <!-- O que é -->
+  <section class="section container">
+    <h2>Por que realizar a checagem de veículos?</h2>
+    <p class="lead">A análise veicular é essencial para escritórios jurídicos que atuam em disputas ou heranças, incorporadoras que utilizam frotas e indústrias que dependem de logística. Através de consultas oficiais, você reduz riscos financeiros, legais e operacionais.</p>
+  </section>
+
+  <!-- Funcionalidades -->
+  <section class="section container" id="funcionalidades">
+    <h2>Funcionalidades da Checagem de Veículos</h2>
+    <p class="lead">Módulos que entregam informações críticas para processos jurídicos, avaliações imobiliárias e operações industriais.</p>
+
+    <div class="grid">
+      <article class="card">
+        <div class="feature-row">
+          <div class="feature-ico" style="background:#e0f2f7"><svg fill="#2693ab" viewBox="0 0 24 24"><path d="M12 4l-8 4v8l8 4 8-4V8l-8-4zM5 8l7 3 7-3m-7 5l-7-3v6l7 3 7-3v-6l-7 3z"/></svg></div>
+          <div>
+            <h3>Dados de Registro</h3>
+            <p>Validação de chassi, ano de fabricação, placa, RENAVAM e informações oficiais de registro.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="feature-row">
+          <div class="feature-ico" style="background:#fff3e0"><svg fill="#f57c00" viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg></div>
+          <div>
+            <h3>Multas e Restrições</h3>
+            <p>Consulta às bases estaduais e nacionais do Detran para identificar multas, restrições, bloqueios e pendências de licenciamento.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="feature-row">
+          <div class="feature-ico" style="background:#fce4ec"><svg fill="#c2185b" viewBox="0 0 24 24"><path d="M12 2L2 7v6c0 5 3.8 9.8 10 11 6.2-1.2 10-6 10-11V7l-10-5z"/></svg></div>
+          <div>
+            <h3>Gravame</h3>
+            <p>Identificação de financiamentos ativos: instituição financeira, contrato, datas e status da operação.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="feature-row">
+          <div class="feature-ico" style="background:#ede7f6"><svg fill="#4527a0" viewBox="0 0 24 24"><path d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg></div>
+          <div>
+            <h3>Tabela FIPE</h3>
+            <p>Consulta atualizada da Tabela FIPE para negociações judiciais, perícias, seguros e transações imobiliárias envolvendo veículos.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="feature-row">
+          <div class="feature-ico" style="background:#e8f5e9"><svg fill="#2e7d32" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg></div>
+          <div>
+            <h3>Histórico de Proprietário</h3>
+            <p>Identificação do atual e antigos proprietários, essencial para litígios, auditorias e análise de procedência.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="feature-row">
+          <div class="feature-ico" style="background:#ffebee"><svg fill="#c62828" viewBox="0 0 24 24"><path d="M12 2L1.5 9l10.5 7 10.5-7L12 2z"/></svg></div>
+          <div>
+            <h3>Consulta RENAJUD</h3>
+            <p>Verificação de processos judiciais vinculados ao veículo no sistema RENAJUD, útil em execuções, penhoras e disputas legais.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="section container" style="text-align:center">
+    <h2>Transforme riscos em segurança</h2>
+    <p class="lead">Com a checagem de veículos da APinformação, você garante suporte sólido em processos jurídicos, análises imobiliárias e operações industriais.</p>
+    <a class="btn btn-primary" href="https://api.whatsapp.com/send?phone=5511948962888&text=Olá!%20Tenho%20interesse%20na%20Checagem%20de%20Veículos." target="_blank">Fale com um especialista</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 APinformação — Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
